@@ -1,0 +1,49 @@
+Website Name: GlucoTrack (Diabetes Tracker)
+
+Overview:
+GlucoTrack is a comprehensive, web-based diabetes and blood glucose tracking application. It is designed to help users log their daily blood sugar readings, view trends over time, and manage their personal health profile. The current design is a modern, dark-themed UI (using Tailwind CSS) with emerald green accents.
+
+Core Features & Functionalities:
+
+1. User Authentication & Onboarding
+- Registration: Users can create an account by providing their Full Name, Username, Password, Age, Gender, Weight (kg), Blood Group, Diabetic Status (Yes/No), and an optional Profile Photo.
+- Login: Secure login using Username and Password. Redirects to the dashboard upon successful entry.
+- Logout Functionality.
+
+2. Main Dashboard (dashboard.php)
+- Sidebar Navigation: Links to Dashboard, Daily Page, Weekly Trend, Monthly Trend, and an Edit Profile section. Displays user's avatar, name, and diabetic status.
+- Greeting & Date: Displays a personalized greeting with the current date.
+- Latest Reading Card: Prominently displays the most recent glucose reading (in mmol/L) along with a color-coded status badge:
+  - Low (Blue): < 4.0 mmol/L
+  - Normal (Emerald): 4.0 - 7.8 mmol/L
+  - High (Red): > 7.8 mmol/L
+- Quick Log Form: A form to instantly log a new reading directly from the dashboard. Requires Time, Glucose Level, and optional Notes. (Defaults to current date/time).
+- 7-Day Trend Chart: A miniature line chart (using Chart.js) showing the average glucose levels over the past 7 days.
+
+3. Daily View (daily.php)
+- Date Selector: A date picker to view logs from any specific day.
+- Daily Log Table: Displays all readings for the selected date in a table format, showing:
+  - Time
+  - Glucose Level (mmol/L)
+  - Color-coded Status (Low/Normal/High)
+  - User Notes
+- Add Reading: A form to add a new reading specifically for the selected date.
+
+4. Weekly Trend Analysis (weekly.php)
+- Displays a detailed line chart (Chart.js) tracking the average daily glucose levels over the last 7 days.
+
+5. Monthly Trend Analysis (monthly.php)
+- Displays a detailed line chart (Chart.js) tracking the average daily glucose levels over the last 30 days.
+
+6. User Profile Management (user.php)
+- Allows users to update their personal information: Full Name, Age, Gender, Weight, Blood Group, and Diabetic Status.
+- Allows users to change their Profile Photo.
+
+Current Technical & Design Stack (For reference):
+- Frontend: HTML5, Tailwind CSS (via CDN)
+- Typography: 'Inter' for body text, 'Space Grotesk' for headings.
+- Icons: Font Awesome 6.5.1
+- Charts: Chart.js
+- Backend: PHP with MySQL
+- Theme: Dark mode focused (zinc-950 background, zinc-900 containers, emerald-500 primary accents, white text).
+- Logo: A custom UI element featuring a blood drop emoji 🩸 inside a red/rose gradient rounded square.
