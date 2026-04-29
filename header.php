@@ -116,7 +116,9 @@
 
     .t-card { background: var(--bg-card); border-color: var(--border-color); box-shadow: var(--shadow-card); transition: background var(--transition-speed) ease, border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease; }
     .t-elevated { background: var(--bg-elevated); transition: background var(--transition-speed) ease; }
-    .t-input { background: var(--bg-input); border-color: var(--border-color); color: var(--text-primary); transition: background var(--transition-speed) ease, border-color var(--transition-speed) ease; }
+    .t-input { background: var(--bg-input) !important; border-color: var(--border-color) !important; color: var(--text-primary) !important; transition: background var(--transition-speed) ease, border-color var(--transition-speed) ease; }
+    .t-input::placeholder { color: var(--text-muted) !important; }
+    .t-input:-webkit-autofill { -webkit-text-fill-color: var(--text-primary) !important; -webkit-box-shadow: 0 0 0 30px var(--bg-input) inset !important; }
     .t-sidebar { background: var(--bg-sidebar); border-color: var(--border-color); transition: background var(--transition-speed) ease; }
     .t-border { border-color: var(--border-color); transition: border-color var(--transition-speed) ease; }
     .t-glass { background: var(--glass-bg); backdrop-filter: blur(12px); border-color: var(--border-color); transition: background var(--transition-speed) ease; }
