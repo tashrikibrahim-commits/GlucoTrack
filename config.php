@@ -42,12 +42,18 @@ $conn = mysqli_init();
 mysqli_ssl_set($conn, null, null, null, null, null);
 mysqli_report(MYSQLI_REPORT_OFF);
 
-if (!mysqli_real_connect($conn, $db_host, $db_user, $db_pass, '', $db_port, null, MYSQLI_CLIENT_SSL)) {
-    die("Connection failed: " . mysqli_connect_error());
+// Set connection timeout for serverless environments
+$conn->options(MYSQLI_OPT_CONNECT_TIMEOUT, 5);
+
+if (!mysqli_real_connect($conn, $db_host, $db_user, $db_pass, '', (int)$db_port, null, MYSQLI_CLIENT_SSL)) {
+    http_response_code(500);
+    die("Database connection failed: " . mysqli_connect_error());
 }
 
 $conn->query("CREATE DATABASE IF NOT EXISTS diabetes_tracker");
-$conn->select_db("diabetes_tracker");
+if (!$conn->select_db("diabetes_tracker")) {
+    die("Could not select database: " . $conn->error);
+}
 
 // Load glucose thresholds from DB (cached in session)
 function getGlucoseThresholds($conn) {
