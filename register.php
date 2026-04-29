@@ -7,10 +7,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST['username']); $full_name = trim($_POST['full_name']); $password = trim($_POST['password']);
     $age = (int)$_POST['age']; $gender = $_POST['gender']; $weight = !empty($_POST['weight']) ? (float)$_POST['weight'] : null;
     $bloodgroup = $_POST['bloodgroup']; $diabetes = $_POST['diabetes']; $photo_path = null;
-    if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
-        $dir = "uploads/"; if (!is_dir($dir)) mkdir($dir, 0777, true);
-        $target = $dir . time() . "_" . basename($_FILES['photo']['name']);
-        if (move_uploaded_file($_FILES['photo']['tmp_name'], $target)) $photo_path = $target;
+    if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0 && $_FILES['photo']['size'] > 0) {
+        $tmpFile = $_FILES['photo']['tmp_name'];
+        $mime = mime_content_type($tmpFile);
+        if (in_array($mime, ['image/jpeg','image/png','image/gif','image/webp'])) {
+            $photo_path = 'data:' . $mime . ';base64,' . base64_encode(file_get_contents($tmpFile));
+        }
     }
     $stmt = $conn->prepare("INSERT INTO users (username, full_name, password, age, gender, weight, bloodgroup, diabetes, photo) VALUES (?,?,?,?,?,?,?,?,?)");
     $stmt->bind_param("sssisssss", $username, $full_name, $password, $age, $gender, $weight, $bloodgroup, $diabetes, $photo_path);

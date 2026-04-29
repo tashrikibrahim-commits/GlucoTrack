@@ -10,3 +10,19 @@ function logoSVG($size = 32) {
     $svg .= '</svg>';
     return $svg;
 }
+
+// Default avatar SVG as a data URI — generic person silhouette
+function defaultAvatar() {
+    return 'data:image/svg+xml;base64,' . base64_encode('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" rx="60" fill="#27272a"/><circle cx="60" cy="44" r="20" fill="#52525b"/><path d="M20 110c0-22 18-40 40-40s40 18 40 40" fill="#52525b"/></svg>');
+}
+
+// Get profile image URL — priority: uploaded photo > google photo > default
+function getProfileImg($userData) {
+    if (!empty($userData['photo'])) {
+        return $userData['photo'];
+    }
+    if (!empty($userData['google_photo'])) {
+        return $userData['google_photo'];
+    }
+    return defaultAvatar();
+}

@@ -2,7 +2,7 @@
 require_once 'logo.php';
 $current_page = $current_page ?? 'dashboard';
 $full_name = $full_name ?? 'User';
-$profileImg = $profileImg ?? 'https://i.pravatar.cc/150?u=default';
+$profileImg = $profileImg ?? defaultAvatar();
 $diabetes_status = $diabetes_status ?? 'No';
 ?>
 

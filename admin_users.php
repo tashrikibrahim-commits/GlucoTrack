@@ -56,7 +56,7 @@ $admin_page = 'users';
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-3">
                                         <?php 
-                                        $img = $u['photo'] ?: ($u['google_photo'] ?: 'https://i.pravatar.cc/150?u='.$u['id']);
+                                        $img = getProfileImg($u);
                                         ?>
                                         <img src="<?= htmlspecialchars($img) ?>" class="w-8 h-8 rounded-full object-cover border t-border" alt="">
                                         <div>

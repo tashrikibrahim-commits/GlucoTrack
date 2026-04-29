@@ -9,10 +9,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $weight = !empty($_POST['weight']) ? (float)$_POST['weight'] : null;
     $bloodgroup = $_POST['bloodgroup']; $diabetes = $_POST['diabetes'];
     $photo_path = $_POST['old_photo'] ?? null;
-    if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
-        $dir = "uploads/"; if (!is_dir($dir)) mkdir($dir, 0777, true);
-        $target = $dir . time() . "_" . basename($_FILES['photo']['name']);
-        if (move_uploaded_file($_FILES['photo']['tmp_name'], $target)) $photo_path = $target;
+    if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0 && $_FILES['photo']['size'] > 0) {
+        $tmpFile = $_FILES['photo']['tmp_name'];
+        $mime = mime_content_type($tmpFile);
+        if (in_array($mime, ['image/jpeg','image/png','image/gif','image/webp'])) {
+            $imgData = file_get_contents($tmpFile);
+            $photo_path = 'data:' . $mime . ';base64,' . base64_encode($imgData);
+        }
     }
     $stmt = $conn->prepare("UPDATE users SET full_name=?, age=?, gender=?, weight=?, bloodgroup=?, diabetes=?, photo=? WHERE id=?");
     $stmt->bind_param("sisdsssl", $fn, $age, $gender, $weight, $bloodgroup, $diabetes, $photo_path, $user_id);
@@ -21,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $user = $conn->query("SELECT * FROM users WHERE id = $user_id")->fetch_assoc();
 $diabetes_status = $user['diabetes'] ?? 'No';
-$profileImg = $user['photo'] ?: ($user['google_photo'] ?? ($user['gender']=='Female' ? 'https://i.pravatar.cc/150?u=female' : 'https://i.pravatar.cc/150?u=male'));
+$profileImg = getProfileImg($user);
 $current_page = 'profile';
 ?>
 <!DOCTYPE html>

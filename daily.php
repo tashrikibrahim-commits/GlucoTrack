@@ -11,7 +11,7 @@ $next_date = date('Y-m-d', strtotime("$selected_date +1 day"));
 
 $userData = $conn->query("SELECT diabetes, gender, photo, google_photo FROM users WHERE id = $user_id")->fetch_assoc();
 $diabetes_status = $userData['diabetes'] ?? 'No';
-$profileImg = $userData['photo'] ?: ($userData['google_photo'] ?? ($userData['gender']=='Female' ? 'https://i.pravatar.cc/150?u=female' : 'https://i.pravatar.cc/150?u=male'));
+$profileImg = getProfileImg($userData);
 
 $stmt = $conn->prepare("SELECT * FROM glucose_logs WHERE user_id = ? AND log_date = ? ORDER BY log_time");
 $stmt->bind_param("is", $user_id, $selected_date);

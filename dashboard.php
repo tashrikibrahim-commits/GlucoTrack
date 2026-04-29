@@ -7,7 +7,7 @@ $user_id = $_SESSION['user_id'];
 $full_name = $_SESSION['full_name'];
 $userData = $conn->query("SELECT diabetes, gender, photo, google_photo FROM users WHERE id = $user_id")->fetch_assoc();
 $diabetes_status = $userData['diabetes'] ?? 'No';
-$profileImg = $userData['photo'] ?: ($userData['google_photo'] ?? ($userData['gender']=='Female' ? 'https://i.pravatar.cc/150?u=female' : 'https://i.pravatar.cc/150?u=male'));
+$profileImg = getProfileImg($userData);
 
 $latest = $conn->query("SELECT glucose_level, log_date, log_time FROM glucose_logs WHERE user_id = $user_id ORDER BY log_date DESC, log_time DESC LIMIT 1")->fetch_assoc();
 $statusInfo = ['label' => 'No Data', 'class' => 'bg-zinc-800 text-zinc-400 border-zinc-700', 'color' => '#71717a'];

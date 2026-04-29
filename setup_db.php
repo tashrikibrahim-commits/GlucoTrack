@@ -18,12 +18,14 @@ $conn->query("CREATE TABLE IF NOT EXISTS users (
     weight DECIMAL(5,1) DEFAULT NULL,
     bloodgroup VARCHAR(5) DEFAULT NULL,
     diabetes VARCHAR(5) DEFAULT 'No',
-    photo VARCHAR(500) DEFAULT NULL,
+    photo MEDIUMTEXT DEFAULT NULL,
     google_id VARCHAR(255) DEFAULT NULL,
     google_photo VARCHAR(500) DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )");
 echo "✅ Table 'users' created<br>";
+// Upgrade photo column for base64 storage (in case table already existed with VARCHAR)
+$conn->query("ALTER TABLE users MODIFY COLUMN photo MEDIUMTEXT DEFAULT NULL");
 
 $conn->query("CREATE TABLE IF NOT EXISTS glucose_logs (
     id INT AUTO_INCREMENT PRIMARY KEY,

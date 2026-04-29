@@ -5,7 +5,7 @@ if (!isset($_SESSION['user_id'])) { header("Location: index.php"); exit(); }
 $user_id = $_SESSION['user_id']; $full_name = $_SESSION['full_name'];
 $userData = $conn->query("SELECT diabetes, gender, photo, google_photo FROM users WHERE id = $user_id")->fetch_assoc();
 $diabetes_status = $userData['diabetes'] ?? 'No';
-$profileImg = $userData['photo'] ?: ($userData['google_photo'] ?? ($userData['gender']=='Female' ? 'https://i.pravatar.cc/150?u=female' : 'https://i.pravatar.cc/150?u=male'));
+$profileImg = getProfileImg($userData);
 $logs = $conn->query("SELECT log_date, AVG(glucose_level) as avg_glucose FROM glucose_logs WHERE user_id = $user_id AND log_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) GROUP BY log_date ORDER BY log_date")->fetch_all(MYSQLI_ASSOC);
 $labels = []; $values = [];
 foreach ($logs as $r) { $labels[] = date('M d', strtotime($r['log_date'])); $values[] = round($r['avg_glucose'], 1); }
